@@ -1,0 +1,15 @@
+{
+    "name":"DB",
+    "dockerComposeFile":["../docker-compose.yaml","../.devcontainer/docker-compose.yml"],
+    "service":"mysql",
+    "shutdownAction": "none",
+    "workspaceFolder":"/workspace/db",
+    "settings":{
+        
+  },
+  "extensions": [
+    
+  ],
+}
+
+

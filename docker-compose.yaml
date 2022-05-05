@@ -1,0 +1,25 @@
+version: '3'
+volumes:
+    todo-db-store:
+services: 
+    golang-api:
+        build:
+            context: todo
+            dockerfile: Dockerfile
+        tty: true
+        volumes:
+            - .:/go/src # .gitを含めるため
+        stdin_open: true
+    mysql:
+        build:
+            context: db
+            dockerfile: Dockerfile
+        environment: 
+            - MYSQL_ROOT_PASSWORD=golang
+        ports:
+            - "13306:13306"
+        volumes :
+            # 初期データを投入するSQLが格納されているdir
+            - ./db/init:/docker-entrypoint-initdb.d
+            - todo-db-store:/var/lib/mysql
+        command: /bin/sh -c "while sleep 1000; do :; done"
