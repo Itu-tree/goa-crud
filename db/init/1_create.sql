@@ -14,8 +14,8 @@ INSERT INTO users (name, password) VALUES ("gophar", "5555");
 INSERT INTO users (name, password) VALUES ("octcat", "0000");
 
 -- golagn-api用のユーザーを作成
-CREATE USER 'golang-api'@'%' IDENTIFIED BY 'password';
+CREATE USER 'golang-api'@'go-server.backend' IDENTIFIED BY 'password';
 -- 認証方式を変更
-ALTER USER 'golang-api'@'%' IDENTIFIED WITH mysql_native_password BY 'password';
+ALTER USER 'golang-api'@'go-server.backend' IDENTIFIED WITH mysql_native_password BY 'password';
 -- 権限を追加(@の直後について、golang-api(docker-composeのサービス名)からのみアクセスできる)
-GRANT SELECT,INSERT,UPDATE,DELETE ON golang_db.* TO 'golang-api'@'%';
+GRANT SELECT,INSERT,UPDATE,DELETE ON golang_db.* TO 'golang-api'@'go-server.backend';
