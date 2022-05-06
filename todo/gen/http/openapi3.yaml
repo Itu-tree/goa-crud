@@ -20,8 +20,8 @@ paths:
         schema:
           type: string
           description: Name
-          example: Officiis dolorem.
-        example: Fugiat numquam distinctio.
+          example: Itaque eveniet consequatur aut ipsam et.
+        example: Officia vero fugiat cumque.
       responses:
         "200":
           description: OK response.
@@ -29,9 +29,52 @@ paths:
             application/json:
               schema:
                 type: string
-                example: Eum exercitationem rerum blanditiis iure voluptas.
-              example: Quasi facere.
-components: {}
+                example: Velit ea.
+              example: Iure dolore.
+  /user/{id}:
+    get:
+      tags:
+      - todo
+      summary: show todo
+      operationId: todo#show
+      parameters:
+      - name: id
+        in: path
+        description: ID
+        required: true
+        schema:
+          type: integer
+          description: ID
+          example: 6356091066961424822
+          format: int64
+        example: 3809891258673976689
+      responses:
+        "200":
+          description: OK response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Username'
+              example:
+                id: 6616090331682594200
+                name: Facere aperiam minima mollitia accusantium ut quis.
+components:
+  schemas:
+    Username:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID
+          example: 2494182392581413771
+          format: int64
+        name:
+          type: string
+          description: Name
+          example: Molestias assumenda ea quia rerum enim.
+      example:
+        id: 4093862377086917583
+        name: Nihil dolore corrupti odit enim.
 tags:
 - name: todo
   description: Service that manage todo.

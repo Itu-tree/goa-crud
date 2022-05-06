@@ -6,3 +6,27 @@
 // $ goa gen todo/design
 
 package client
+
+import (
+	todoviews "todo/gen/todo/views"
+)
+
+// ShowResponseBody is the type of the "todo" service "show" endpoint HTTP
+// response body.
+type ShowResponseBody struct {
+	// ID
+	ID *int `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
+	// Name
+	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
+}
+
+// NewShowUsernameOK builds a "todo" service "show" endpoint result from a HTTP
+// "OK" response.
+func NewShowUsernameOK(body *ShowResponseBody) *todoviews.UsernameView {
+	v := &todoviews.UsernameView{
+		ID:   body.ID,
+		Name: body.Name,
+	}
+
+	return v
+}

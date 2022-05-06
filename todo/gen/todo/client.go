@@ -16,12 +16,14 @@ import (
 // Client is the "todo" service client.
 type Client struct {
 	HelloEndpoint goa.Endpoint
+	ShowEndpoint  goa.Endpoint
 }
 
 // NewClient initializes a "todo" service client given the endpoints.
-func NewClient(hello goa.Endpoint) *Client {
+func NewClient(hello, show goa.Endpoint) *Client {
 	return &Client{
 		HelloEndpoint: hello,
+		ShowEndpoint:  show,
 	}
 }
 
@@ -33,4 +35,14 @@ func (c *Client) Hello(ctx context.Context, p *HelloPayload) (res string, err er
 		return
 	}
 	return ires.(string), nil
+}
+
+// Show calls the "show" endpoint of the "todo" service.
+func (c *Client) Show(ctx context.Context, p *ShowPayload) (res *Username, err error) {
+	var ires interface{}
+	ires, err = c.ShowEndpoint(ctx, p)
+	if err != nil {
+		return
+	}
+	return ires.(*Username), nil
 }

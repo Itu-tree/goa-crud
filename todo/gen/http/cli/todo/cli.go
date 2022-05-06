@@ -23,13 +23,13 @@ import (
 //    command (subcommand1|subcommand2|...)
 //
 func UsageCommands() string {
-	return `todo hello
+	return `todo (hello|show)
 `
 }
 
 // UsageExamples produces an example of a valid invocation of the CLI tool.
 func UsageExamples() string {
-	return os.Args[0] + ` todo hello --name "Quibusdam totam beatae beatae enim."` + "\n" +
+	return os.Args[0] + ` todo hello --name "Totam aut iusto repudiandae facilis aut autem."` + "\n" +
 		""
 }
 
@@ -47,9 +47,13 @@ func ParseEndpoint(
 
 		todoHelloFlags    = flag.NewFlagSet("hello", flag.ExitOnError)
 		todoHelloNameFlag = todoHelloFlags.String("name", "REQUIRED", "Name")
+
+		todoShowFlags  = flag.NewFlagSet("show", flag.ExitOnError)
+		todoShowIDFlag = todoShowFlags.String("id", "REQUIRED", "ID")
 	)
 	todoFlags.Usage = todoUsage
 	todoHelloFlags.Usage = todoHelloUsage
+	todoShowFlags.Usage = todoShowUsage
 
 	if err := flag.CommandLine.Parse(os.Args[1:]); err != nil {
 		return nil, nil, err
@@ -88,6 +92,9 @@ func ParseEndpoint(
 			case "hello":
 				epf = todoHelloFlags
 
+			case "show":
+				epf = todoShowFlags
+
 			}
 
 		}
@@ -116,6 +123,9 @@ func ParseEndpoint(
 			case "hello":
 				endpoint = c.Hello()
 				data, err = todoc.BuildHelloPayload(*todoHelloNameFlag)
+			case "show":
+				endpoint = c.Show()
+				data, err = todoc.BuildShowPayload(*todoShowIDFlag)
 			}
 		}
 	}
@@ -134,6 +144,7 @@ Usage:
 
 COMMAND:
     hello: Hello implements hello.
+    show: Show implements show.
 
 Additional help:
     %[1]s todo COMMAND --help
@@ -146,6 +157,17 @@ Hello implements hello.
     -name STRING: Name
 
 Example:
-    %[1]s todo hello --name "Quibusdam totam beatae beatae enim."
+    %[1]s todo hello --name "Totam aut iusto repudiandae facilis aut autem."
+`, os.Args[0])
+}
+
+func todoShowUsage() {
+	fmt.Fprintf(os.Stderr, `%[1]s [flags] todo show -id INT
+
+Show implements show.
+    -id INT: ID
+
+Example:
+    %[1]s todo show --id 8463257927183265772
 `, os.Args[0])
 }

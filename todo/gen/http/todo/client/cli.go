@@ -8,6 +8,8 @@
 package client
 
 import (
+	"fmt"
+	"strconv"
 	todo "todo/gen/todo"
 )
 
@@ -20,6 +22,25 @@ func BuildHelloPayload(todoHelloName string) (*todo.HelloPayload, error) {
 	}
 	v := &todo.HelloPayload{}
 	v.Name = name
+
+	return v, nil
+}
+
+// BuildShowPayload builds the payload for the todo show endpoint from CLI
+// flags.
+func BuildShowPayload(todoShowID string) (*todo.ShowPayload, error) {
+	var err error
+	var id int
+	{
+		var v int64
+		v, err = strconv.ParseInt(todoShowID, 10, strconv.IntSize)
+		id = int(v)
+		if err != nil {
+			return nil, fmt.Errorf("invalid value for id, must be INT")
+		}
+	}
+	v := &todo.ShowPayload{}
+	v.ID = id
 
 	return v, nil
 }

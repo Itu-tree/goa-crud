@@ -16,18 +16,21 @@ import (
 // Endpoints wraps the "todo" service endpoints.
 type Endpoints struct {
 	Hello goa.Endpoint
+	Show  goa.Endpoint
 }
 
 // NewEndpoints wraps the methods of the "todo" service with endpoints.
 func NewEndpoints(s Service) *Endpoints {
 	return &Endpoints{
 		Hello: NewHelloEndpoint(s),
+		Show:  NewShowEndpoint(s),
 	}
 }
 
 // Use applies the given middleware to all the "todo" service endpoints.
 func (e *Endpoints) Use(m func(goa.Endpoint) goa.Endpoint) {
 	e.Hello = m(e.Hello)
+	e.Show = m(e.Show)
 }
 
 // NewHelloEndpoint returns an endpoint function that calls the method "hello"
@@ -36,5 +39,19 @@ func NewHelloEndpoint(s Service) goa.Endpoint {
 	return func(ctx context.Context, req interface{}) (interface{}, error) {
 		p := req.(*HelloPayload)
 		return s.Hello(ctx, p)
+	}
+}
+
+// NewShowEndpoint returns an endpoint function that calls the method "show" of
+// service "todo".
+func NewShowEndpoint(s Service) goa.Endpoint {
+	return func(ctx context.Context, req interface{}) (interface{}, error) {
+		p := req.(*ShowPayload)
+		res, err := s.Show(ctx, p)
+		if err != nil {
+			return nil, err
+		}
+		vres := NewViewedUsername(res, "default")
+		return vres, nil
 	}
 }

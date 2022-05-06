@@ -15,3 +15,8 @@ import (
 func HelloTodoPath(name string) string {
 	return fmt.Sprintf("/hello/%v", name)
 }
+
+// ShowTodoPath returns the URL path to the todo service show HTTP endpoint.
+func ShowTodoPath(id int) string {
+	return fmt.Sprintf("/user/%v", id)
+}

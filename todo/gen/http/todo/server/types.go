@@ -9,12 +9,40 @@ package server
 
 import (
 	todo "todo/gen/todo"
+	todoviews "todo/gen/todo/views"
 )
+
+// ShowResponseBody is the type of the "todo" service "show" endpoint HTTP
+// response body.
+type ShowResponseBody struct {
+	// ID
+	ID *int `form:"id,omitempty" json:"id,omitempty" xml:"id,omitempty"`
+	// Name
+	Name *string `form:"name,omitempty" json:"name,omitempty" xml:"name,omitempty"`
+}
+
+// NewShowResponseBody builds the HTTP response body from the result of the
+// "show" endpoint of the "todo" service.
+func NewShowResponseBody(res *todoviews.UsernameView) *ShowResponseBody {
+	body := &ShowResponseBody{
+		ID:   res.ID,
+		Name: res.Name,
+	}
+	return body
+}
 
 // NewHelloPayload builds a todo service hello endpoint payload.
 func NewHelloPayload(name string) *todo.HelloPayload {
 	v := &todo.HelloPayload{}
 	v.Name = name
+
+	return v
+}
+
+// NewShowPayload builds a todo service show endpoint payload.
+func NewShowPayload(id int) *todo.ShowPayload {
+	v := &todo.ShowPayload{}
+	v.ID = id
 
 	return v
 }
