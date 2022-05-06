@@ -14,10 +14,15 @@ services:
         build:
             context: db
             dockerfile: Dockerfile
+        tty: true
         environment: 
             - MYSQL_ROOT_PASSWORD=golang
-        ports:
-            - "13306:13306"
+        # ホストからDBを確認したい時用
+        # ports:
+        #     - "13306:3306"
+        # composeネットワーク内でつなげる用
+        expose:
+            - "3306"
         volumes :
             # 初期データを投入するSQLが格納されているdir
             - ./db/init:/docker-entrypoint-initdb.d
