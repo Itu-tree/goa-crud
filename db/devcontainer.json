@@ -1,9 +1,9 @@
 {
     "name":"DB",
-    "dockerComposeFile":["../docker-compose.yaml","../.devcontainer/docker-compose.yml"],
+    "dockerComposeFile":["../docker-compose.yaml"],
     "service":"mysql",
     "shutdownAction": "none",
-    "workspaceFolder":"/workspace/db",
+    "workspaceFolder":"/",
     "settings":{
         
   },
