@@ -27,4 +27,7 @@ services:
             # 初期データを投入するSQLが格納されているdir
             - ./db/init:/docker-entrypoint-initdb.d
             - todo-db-store:/var/lib/mysql
-        command: /bin/sh -c "while sleep 1000; do :; done"
+networks:
+  default:
+    external:
+      name: backend
